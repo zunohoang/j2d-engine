@@ -1,16 +1,16 @@
 package engine.components;
 
+import engine.maths.Position;
+import engine.maths.Vector2D;
+
 public class Transform extends Component {
-    public float x, y;
+    public Vector2D position;
+    public float rotation;
+    public Vector2D scale;
 
-    public Transform(float x, float y) {
-        this.x = x;
-        this.y = y;
+    public Transform(Vector2D position, float rotation, Vector2D scale) {
+        this.position = position;
+        this.rotation = rotation;
+        this.scale = scale;
     }
-
-    public void move(float dx, float dy) {
-        this.x += dx;
-        this.y += dy;
-    }
-
 }

@@ -18,7 +18,7 @@ public class TopDownRigidbody extends Component{
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        gameObject.position.add(velocity);
+        gameObject.transform.position.add(velocity);
     }
 
     public float getMass() {

@@ -5,6 +5,8 @@ import engine.components.Rigidbody;
 import engine.components.BoxCollider;
 import engine.components.TopDownRigidbody;
 import engine.objects.GameObject;
+import engine.utils.LOG_TYPE;
+import engine.utils.Logger;
 
 public class Physics {
     public static void resolveCollision(GameObject objA, GameObject objB) {
@@ -19,8 +21,8 @@ public class Physics {
         float m1 = rbA.getMass(), m2 = rbB.getMass();
 
         // Vector vị trí
-        float dx = rbB.getGameObject().position.x - rbA.getGameObject().position.x;
-        float dy = rbB.getGameObject().position.y - rbA.getGameObject().position.y;
+        float dx = rbB.getGameObject().transform.position.x - rbA.getGameObject().transform.position.x;
+        float dy = rbB.getGameObject().transform.position.y - rbA.getGameObject().transform.position.y;
         float distanceSquared = dx * dx + dy * dy;
         if (distanceSquared == 0) return; // Tránh chia cho 0
 
@@ -40,6 +42,23 @@ public class Physics {
         rbB.getVelocity().x -= factorB * dx;
         rbB.getVelocity().y -= factorB * dy;
 
-        System.out.println("Xử lý va chạm giữa " + objA.name + " và " + objB.name);
+        // Tách đối tượng để tránh dính nhau
+        float distance = (float) Math.sqrt(distanceSquared);
+        float overlap = (colliderA.getRadius() + colliderB.getRadius()) - distance;
+
+        if (overlap > 0) {
+            // Vector pháp tuyến (normal vector)
+            float nx = dx / distance;
+            float ny = dy / distance;
+
+            // Dịch chuyển hai đối tượng dọc theo vector pháp tuyến
+            float separation = overlap / 2; // Chia đều khoảng cách tách
+            objA.transform.position.x -= separation * nx;
+            objA.transform.position.y -= separation * ny;
+            objB.transform.position.x += separation * nx;
+            objB.transform.position.y += separation * ny;
+        }
+
+        Logger.log(Physics.class, "Collision resolved", LOG_TYPE.SUCCESS);
     }
 }

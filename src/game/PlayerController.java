@@ -12,14 +12,10 @@ public class PlayerController extends Component {
     @Override
     public void update(float deltaTime) {
         if (KeyInput.isKeyPressed(KeyEvent.VK_LEFT)) {
-            gameObject.position.x -= speed * deltaTime;
+            gameObject.transform.position.x -= speed * deltaTime;
         }
         if (KeyInput.isKeyPressed(KeyEvent.VK_RIGHT)) {
-            gameObject.position.x += speed * deltaTime;
-        }
-        if (KeyInput.isKeyPressed(KeyEvent.VK_SPACE)) {
-            Rigidbody rb = gameObject.getComponent(Rigidbody.class);
-            if (rb != null) rb.velocity.y = -300;
+            gameObject.transform.position.x += speed * deltaTime;
         }
     }
 }

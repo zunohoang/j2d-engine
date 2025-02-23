@@ -10,8 +10,8 @@ public class CircleCollider extends Component {
     }
 
     public boolean isColliding(CircleCollider other) {
-        float dx = gameObject.position.x - other.gameObject.position.x;
-        float dy = gameObject.position.y - other.gameObject.position.y;
+        float dx = gameObject.transform.position.x - other.gameObject.transform.position.x;
+        float dy = gameObject.transform.position.y - other.gameObject.transform.position.y;
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
 
         return distance < this.radius + other.radius;

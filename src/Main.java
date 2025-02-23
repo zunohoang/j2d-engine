@@ -1,40 +1,43 @@
+import engine.core.Engine;
 import engine.core.GameLoop;
-import engine.core.KeyInput;
-import engine.physics.CollisionManager;
 import engine.scenes.SceneManager;
-import game.GameScene;
+import game.GameConfig;
+import game.MenuScene;
 
-import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Game Engine with Rigidbody");
-        SceneManager.loadScene(new GameScene());
-        GameLoop gamePanel = new GameLoop();
+//        // Tạo Frame (cửa sổ chính)
+//        Frame frame = new Frame("Game Engine with Rigidbody");
+//        frame.setSize(GameConfig.SCREEN_WIDTH, GameConfig.SCREEN_HEIGHT);
+//        frame.setResizable(false);
+//
+//        // Tạo GameLoop (Canvas)
+//        GameLoop gameLoop = new GameLoop();
+//        gameLoop.setSize(GameConfig.SCREEN_WIDTH, GameConfig.SCREEN_HEIGHT);
+//
+//        // Thêm GameLoop vào Frame
+//        frame.add(gameLoop);
+//
+//        // Hiển thị Frame
+//        frame.setVisible(true);
+//
+//        // Đóng ứng dụng khi đóng cửa sổ
+//        frame.addWindowListener(new WindowAdapter() {
+//            @Override
+//            public void windowClosing(WindowEvent e) {
+//                System.exit(0);
+//            }
+//        });
+//
+//        // Khởi động game loop
+//        gameLoop.start();
 
-        frame.addKeyListener(new KeyInput());
-        frame.setFocusable(true);
-        frame.requestFocus();
-
-
-        frame.add(gamePanel);
-        frame.setSize(400, 400);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        new Thread(
-                () -> {
-                    while (true) {
-                        CollisionManager.checkCollisions();
-                        try {
-                            Thread.sleep(10);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-        ).start();
-        SwingUtilities.invokeLater(() -> {
-            new Thread(gamePanel).start();
-        });
+        Engine.start();
+        // Tải scene đầu tiên (MenuScene)
+        SceneManager.loadScene(new MenuScene());
     }
 }

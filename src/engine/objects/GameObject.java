@@ -1,20 +1,47 @@
 package engine.objects;
 
 import engine.components.Component;
+import engine.components.Transform;
+import engine.graphics.Renderer;
 import engine.maths.Vector2D;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GameObject {
     public String name;
-    public Vector2D position;
+    public Transform transform;
+    public int layer;
+
+    private List<GameObject> gameObjects = new ArrayList<>();
     private List<Component> components = new ArrayList<>();
 
-    public GameObject(String name, float x, float y) {
+    public GameObject(String name, Transform transform) {
         this.name = name;
-        this.position = new Vector2D(x, y);
+        this.transform = transform;
+    }
+
+    // Them gameobject con
+    public void addObject(GameObject obj) {
+        gameObjects.add(obj);
+    }
+
+    // Xoa gameobject con
+    public void removeObject(GameObject obj) {
+        gameObjects.remove(obj);
+    }
+
+    // Lay gameobject con theo ten
+    public GameObject findObject(String name) {
+        for (GameObject obj : gameObjects) {
+            if (obj.name.equals(name)) {
+                return obj;
+            }
+        }
+        return null;
     }
 
     // Thêm component vào GameObject
@@ -39,12 +66,39 @@ public class GameObject {
         for (Component c : components) {
             c.update(deltaTime);
         }
+        for(GameObject obj : gameObjects) {
+            obj.update(deltaTime);
+        }
+    }
+
+    // cap nhat thoi gian co dinh
+    public void fixedUpdate(float deltaTime) {
+        for (Component c : components) {
+            c.fixedUpdate(deltaTime);
+        }
+        for(GameObject obj : gameObjects) {
+            obj.fixedUpdate(deltaTime);
+        }
+    }
+
+    // cap nhat cuoi frame
+    public void lateUpdate(float deltaTime) {
+        for (Component c : components) {
+            c.lateUpdate(deltaTime);
+        }
+        for(GameObject obj : gameObjects) {
+            obj.lateUpdate(deltaTime);
+        }
     }
 
     // Vẽ tất cả component có chức năng render
     public void draw(Graphics g) {
+        Renderer renderer = new Renderer(g);
         for (Component c : components) {
-            c.draw(g);
+            c.draw(renderer);
+        }
+        for (GameObject obj : gameObjects) {
+            obj.draw(g);
         }
     }
 }

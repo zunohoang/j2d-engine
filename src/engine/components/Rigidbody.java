@@ -9,11 +9,11 @@ public class Rigidbody extends Component {
     @Override
     public void update(float deltaTime) {
         velocity.y += gravity * deltaTime; // Thêm trọng lực vào vận tốc
-        gameObject.position.add(new Vector2D(velocity.x * deltaTime, velocity.y * deltaTime));
+        gameObject.transform.position.add(new Vector2D(velocity.x * deltaTime, velocity.y * deltaTime));
 
         // Giữ nhân vật không rơi qua màn hình
-        if (gameObject.position.y > 500) {
-            gameObject.position.y = 500;
+        if (gameObject.transform.position.y > 500) {
+            gameObject.transform.position.y = 500;
             velocity.y = 0;
         }
     }

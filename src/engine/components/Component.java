@@ -1,5 +1,6 @@
 package engine.components;
 
+import engine.graphics.Renderer;
 import engine.objects.GameObject;
 
 import java.awt.*;
@@ -18,5 +19,7 @@ public abstract class Component {
 
     public void start() {} // Gọi khi bắt đầu
     public void update(float deltaTime) {} // Gọi mỗi frame
-    public void draw(Graphics g) {} // Vẽ lên màn hình (nếu có)
+    public void fixedUpdate(float deltaTime) {} // Gọi theo khoảng thời gian cố định
+    public void lateUpdate(float deltaTime) {} // Gọi cuối frame
+    public void draw(Renderer g) {} // Vẽ lên màn hình (nếu có)
 }

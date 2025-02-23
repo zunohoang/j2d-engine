@@ -1,0 +1,27 @@
+<Scene
+        name="Background"
+        width="match_parent"
+        height="match_parent"
+        src="assets/images/home-bg.jpg">
+    <PlayerBox
+            name = "PlayerBox"
+            width = "200"
+            height = "100"
+            position = "100,100"
+            color="91,107,144"
+            opacity="0.7"
+            borderRadius="10"
+    >
+        <Image />
+        <Text
+                name = "PlayerName"
+                width = "200"
+                height = "100"
+                position = "100,100"
+                text = "zunohoang"
+        />
+        <Text />
+        <Text />
+    </PlayerBox>
+
+</Scene>
