@@ -14,7 +14,7 @@ public class TextRenderer extends Component {
     @Override
     public void draw(Renderer g) {
         super.draw(g);
-        g.drawString(text, (int) gameObject.transform.position.x, (int) gameObject.transform.position.y, color, fontName, fontSize);
+        g.drawString(text, (int) gameObject.transform.position.x, (int) gameObject.transform.position.y, color, fontName);
     }
 
     public TextRenderer(String text, int fontSize, Font fontName, Color color) {

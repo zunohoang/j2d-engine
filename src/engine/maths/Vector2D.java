@@ -17,4 +17,19 @@ public class Vector2D {
         this.x += other.x;
         this.y += other.y;
     }
+
+    public void subtract(Vector2D other) {
+        this.x -= other.x;
+        this.y -= other.y;
+    }
+
+    public void multiply(Vector2D other) {
+        this.x *= other.x;
+        this.y *= other.y;
+    }
+
+    public void divide(Vector2D other) {
+        this.x /= other.x;
+        this.y /= other.y;
+    }
 }

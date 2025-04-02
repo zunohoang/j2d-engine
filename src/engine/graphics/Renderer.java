@@ -1,6 +1,13 @@
 package engine.graphics;
 
+import engine.maths.Vector2D;
+import engine.maths.Vector3D;
+import engine.objects.GameObject;
+
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
 public class Renderer {
 
@@ -36,6 +43,77 @@ public class Renderer {
 
     public void drawImage(Image img, int x, int y, int width, int height) {
         g.drawImage(img, x - width/2, y - height/2, width, height, null);
+    }
+
+    public void drawImage(Image img, Vector2D position, Vector2D size, Vector3D rotation) {
+        Graphics2D g2d = (Graphics2D) g;
+
+        int x = (int) position.x;
+        int y = (int) position.y;
+        int w = (int) size.x;
+        int h = (int) size.y;
+
+        // Xác định tâm của ảnh (điểm (x, y) sẽ là tâm)
+        int centerX = x;
+        int centerY = y;
+
+        // Lưu trạng thái hiện tại của Graphics2D
+        AffineTransform oldTransform = g2d.getTransform();
+
+        // Tạo một transform mới
+        AffineTransform transform = new AffineTransform();
+
+        // Dịch đến vị trí vẽ (đặt tâm ảnh ở (x, y))
+        transform.translate(centerX, centerY);
+
+        // Xoay quanh tâm ảnh
+        if (rotation.z != 0) {
+            transform.rotate(Math.toRadians(rotation.z));
+        }
+
+        // Lật ảnh nếu cần
+        int flipX = (rotation.x != 0) ? -1 : 1; // Lật ngang nếu rotation.x khác 0
+        int flipY = (rotation.y != 0) ? -1 : 1; // Lật dọc nếu rotation.y khác 0
+        transform.scale(flipX, flipY);
+
+        // Dịch ngược lại để vẽ đúng vị trí từ tâm ra ngoài
+        transform.translate(-w / 2.0, -h / 2.0);
+
+        // Áp dụng transform và vẽ ảnh
+        g2d.setTransform(transform);
+        g2d.drawImage(img, 0, 0, w, h, null);
+
+        // Khôi phục transform ban đầu
+        g2d.setTransform(oldTransform);
+    }
+
+    // xuay 180
+    public void drawImage(Image img, int x, int y, int width, int height, GameObject gameObject) {
+        boolean isFlip = true;  // Changed Boolean to primitive boolean
+        Graphics2D g2d = (Graphics2D) g;
+
+        if (isFlip) {
+            // Save the original transform
+            AffineTransform originalTransform = g2d.getTransform();
+
+            // Create a flip transform (horizontal flip)
+            AffineTransform flipTransform = new AffineTransform();
+            flipTransform.translate(x + width/2, y + height/2);  // Move to center position
+            flipTransform.scale(-1, 1);  // Flip horizontally
+            flipTransform.translate(0, 0);  // Adjust for drawing
+
+            // Apply the transform
+            g2d.setTransform(flipTransform);
+
+            // Draw the image (now flipped)
+            g2d.drawImage(img, x - width/2, y - height/2, width, height, null);
+
+            // Restore the original transform
+            g2d.setTransform(originalTransform);
+        } else {
+            // Normal drawing without flip
+            g2d.drawImage(img, x - width/2, y - height/2, width, height, null);
+        }
     }
 
     public void drawImage(Image img, int x, int y) {
@@ -121,9 +199,22 @@ public class Renderer {
     }
 
     // viet chu voi color, font chu, font size
-    public void drawString(String text, int x, int y, Color color, Font font, int fontSize) {
+    public void drawString(String text, int x, int y, Color color, Font font) {
         g.setColor(color);
-        g.setFont(new Font(font.getName(), font.getStyle(), fontSize));
+        g.setFont(font);
         g.drawString(text, x, y);
+    }
+
+    // draw box co opacity, text, color, image
+    public void drawBox(int x, int y, int width, int height, Color color, Image image, String text, float opacity, Font font, Color textColor) {
+        if (color != null) {
+            drawTransparentRect(x - width/2, y - height/2, width, height, color, opacity);
+        }
+        if (image != null) {
+            drawTransparentImage(image, x - width/2, y - height/2, width, height, opacity);
+        }
+        if (text != null) {
+            drawString(text, x - width/2, y - height/2, textColor, font);
+        }
     }
 }

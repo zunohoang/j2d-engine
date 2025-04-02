@@ -27,7 +27,7 @@ public class GameLoop extends Canvas {
     }
 
     private void updateLoop() {
-        final int TARGET_FPS = 60; // Số khung hình mỗi giây (Frames Per Second)
+        final int TARGET_FPS = 200; // Số khung hình mỗi giây (Frames Per Second)
         final int TARGET_UPS = 50; // Số lần cập nhật vật lý mỗi giây (Updates Per Second)
         final long OPTIMAL_FRAME_TIME = 1_000_000_000 / TARGET_FPS; // ~16.67ms mỗi khung hình
         final long OPTIMAL_UPDATE_TIME = 1_000_000_000 / TARGET_UPS; // ~20ms mỗi lần cập nhật vật lý
@@ -70,9 +70,8 @@ public class GameLoop extends Canvas {
         }
     }
 
-
     private void renderLoop() {
-        final int TARGET_FPS = 60;
+        final int TARGET_FPS = 200;
         final long OPTIMAL_TIME = 1_000_000_000 / TARGET_FPS; // ~16.67ms mỗi frame
 
         long lastLoopTime = System.nanoTime();

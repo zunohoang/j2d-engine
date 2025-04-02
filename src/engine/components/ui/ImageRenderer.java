@@ -2,6 +2,7 @@ package engine.components.ui;
 
 import engine.components.Component;
 import engine.graphics.Renderer;
+import engine.maths.Vector2D;
 import engine.scenes.Scene;
 import engine.scenes.SceneManager;
 
@@ -13,7 +14,7 @@ import java.io.IOException;
 
 public class ImageRenderer extends Component {
     private BufferedImage image;
-    private int width = 0, height = 0;
+    private int width = -1, height = -1;
 
     public ImageRenderer(String imagePath) {
         loadImage(imagePath);
@@ -24,7 +25,7 @@ public class ImageRenderer extends Component {
     }
 
     // Tải ảnh từ file
-    private void loadImage(String path) {
+    public void loadImage(String path) {
         try {
             image = ImageIO.read(new File(path));
         } catch (IOException e) {
@@ -41,13 +42,22 @@ public class ImageRenderer extends Component {
                 width = rectTransform.getWidth();
                 height = rectTransform.getHeight();
             }
+            if(image != null) {
+                width = image.getWidth();
+                height = image.getHeight();
+            }
         }
     }
 
     @Override
     public void draw(Renderer g) {
         if (image != null && gameObject != null) {
-            g.drawImage(image, (int) gameObject.transform.position.x, (int) gameObject.transform.position.y, width, height);
+            if(width == -1 && height == -1) {
+                g.drawImage(image, (int) gameObject.transform.position.x, (int) gameObject.transform.position.y);
+//            } else g.drawImage(image, (int) gameObject.transform.position.x, (int) gameObject.transform.position.y, (int) (width * gameObject.transform.scale.x), (int) (height * gameObject.transform.scale.y), gameObject);
+            } else {
+                g.drawImage(image, gameObject.transform.position, new Vector2D(width * gameObject.transform.scale.x, height * gameObject.transform.scale.y), gameObject.transform.rotation);
+            }
         }
     }
 }

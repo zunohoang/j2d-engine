@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class Engine {
     public static void start() {
-        JFrame frame = new JFrame("Game Engine with Rigidbody");
+        JFrame frame = new JFrame("My Engine");
         GameLoop gamePanel = new GameLoop();
         frame.add(gamePanel);
         frame.setFocusable(true);

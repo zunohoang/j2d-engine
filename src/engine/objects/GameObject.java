@@ -14,6 +14,7 @@ import java.util.Map;
 public class GameObject {
     public String name;
     public Transform transform;
+    public String currentState;
     public int layer;
 
     private List<GameObject> gameObjects = new ArrayList<>();
@@ -48,7 +49,7 @@ public class GameObject {
     public void addComponent(Component component) {
         component.setGameObject(this); // Gán GameObject cho component
         components.add(component);
-        component.start(); // Gọi start() khi thêm component
+        component.start(); // Gọi start() kh        i thêm component
     }
 
     // Lấy component theo kiểu

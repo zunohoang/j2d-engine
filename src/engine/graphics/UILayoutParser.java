@@ -4,22 +4,22 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import engine.components.Component;
-import engine.components.ui.ColorRenderer;
+import engine.components.ui.*;
+import engine.components.ui.Button;
+import engine.maths.Vector3D;
 import engine.scenes.SceneManager;
 import engine.utils.LOG_TYPE;
 import engine.utils.Logger;
 import game.GameScene;
 import org.w3c.dom.*;
 
-import engine.components.ui.Button;
-import engine.components.ui.ImageRenderer;
-import engine.components.ui.RectTransform;
 import engine.maths.Vector2D;
 import engine.objects.GameObject;
 import engine.scenes.Scene;
 
 import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
 
 public class UILayoutParser {
     public static void loadLayout(String filePath, Scene scene) {
@@ -61,44 +61,37 @@ public class UILayoutParser {
         Vector2D pivot = parsePivot(element.getAttribute("pivot"), new Vector2D(0, 0));
 
         // Create the GameObject
-        GameObject obj = new GameObject(name, new engine.components.Transform(position, 0, pivot));
-        obj.addComponent(new RectTransform((int) width, (int) height));
+        GameObject obj = new GameObject(name, new engine.components.Transform(position, new Vector3D(0, 0, 0), pivot));
 
-        String src = element.getAttribute("src");
-        if (!src.isEmpty()) {
-            obj.addComponent(new ImageRenderer(src));
-        } else {
-            Logger.log(UILayoutParser.class, "Image element missing 'src' attribute: " + name, LOG_TYPE.WARN);
+        // Get attribute
+        String colorText = element.getAttribute("color");
+        String[] color = new String[0];
+        if(!colorText.isEmpty()){
+            color = colorText.split(",");
+        }
+        String image = element.getAttribute("src");
+        String text = element.getAttribute("text");
+        String opacity = element.getAttribute("opacity");
+        String fontSize = element.getAttribute("fontSize");
+        String textColorString = element.getAttribute("textColor");
+        String[] textColors = new String[0];
+        if(!textColorString.isEmpty()){
+            textColors = textColorString.split(",");
         }
 
-        String action = element.getAttribute("action");
-        if (!action.isEmpty()) {
-            obj.addComponent(new Button(() -> handleButtonClick(action)));
-        } else {
-            Logger.log(UILayoutParser.class, "Image element missing 'src' attribute: " + name, LOG_TYPE.WARN);
-        }
+        // set
+        obj.addComponent(new BoxRenderer(
+                (int) width,
+                (int) height,
+                color.length == 0 ? null : new Color(Integer.parseInt(color[0]), Integer.parseInt(color[1]), Integer.parseInt(color[2])),
+                image.isEmpty() ? null : Toolkit.getDefaultToolkit().getImage(image),
+                text,
+                opacity.isEmpty() ? 1 : Float.parseFloat(opacity),
+                text.isEmpty() ? null : new Font("Arial", Font.PLAIN, Integer.parseInt(fontSize)),
+                text.isEmpty() ? null : new Color(Integer.parseInt(textColors[0]), Integer.parseInt(textColors[1]), Integer.parseInt(textColors[2]))
+        ));
 
-        float opacity = 1f;
-        String opacityString = element.getAttribute("opacity");
-        if(!(opacityString.isEmpty())) {
-            opacity = Float.parseFloat(opacityString);
-        }
-
-        String colorString = element.getAttribute("color");
-        if(!(colorString.isEmpty())) {
-            String[] colors = colorString.split(",");
-            Color color = new Color(Integer.parseInt(colors[0]), Integer.parseInt(colors[1]), Integer.parseInt(colors[2]));
-            obj.addComponent(new ColorRenderer(color, opacity));
-        }
-
-        String textString = element.getAttribute("text");
-        if(!(textString.isEmpty())) {
-            Logger.log(UILayoutParser.class, "Text element missing 'text' attribute: " + textString, LOG_TYPE.WARN);
-            int fs = 20;
-            obj.addComponent(new engine.components.ui.TextRenderer(textString, fs, new Font("Arial", Font.PLAIN, fs), Color.BLACK));
-        }
-
-
+        Logger.log(UILayoutParser.class, "Created GameObject: " + name, LOG_TYPE.INFO);
         return obj;
     }
 
