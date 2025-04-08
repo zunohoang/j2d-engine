@@ -16,6 +16,14 @@ public class KeyInput implements KeyListener {
         else keys.remove(keyCode);
     }
 
+    public static boolean isKeyJustPressed(int vkSpace) {
+        if (keys.contains(vkSpace)) {
+            keys.remove(vkSpace);
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         setKeyPressed(e.getKeyCode(), true);

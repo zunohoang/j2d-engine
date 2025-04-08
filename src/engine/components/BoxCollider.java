@@ -9,9 +9,30 @@ public class BoxCollider extends Component {
     }
 
     public boolean isColliding(BoxCollider other) {
-        return gameObject.transform.position.x < other.gameObject.transform.position.x + other.width &&
-                gameObject.transform.position.x + width > other.gameObject.transform.position.x &&
-                gameObject.transform.position.y < other.gameObject.transform.position.y + other.height &&
-                gameObject.transform.position.y + height > other.gameObject.transform.position.y;
+        float thisLeft = gameObject.transform.position.x - width / 2;
+        float thisRight = gameObject.transform.position.x + width / 2;
+        float thisTop = gameObject.transform.position.y - height / 2;
+        float thisBottom = gameObject.transform.position.y + height / 2;
+
+        float otherLeft = other.gameObject.transform.position.x - other.width / 2;
+        float otherRight = other.gameObject.transform.position.x + other.width / 2;
+        float otherTop = other.gameObject.transform.position.y - other.height / 2;
+        float otherBottom = other.gameObject.transform.position.y + other.height / 2;
+
+        return !(thisLeft > otherRight || thisRight < otherLeft || thisTop > otherBottom || thisBottom < otherTop);
+    }
+
+    public boolean isCollidingWith(BoxCollider colB) {
+        float thisLeft = gameObject.transform.position.x - width / 2;
+        float thisRight = gameObject.transform.position.x + width / 2;
+        float thisTop = gameObject.transform.position.y - height / 2;
+        float thisBottom = gameObject.transform.position.y + height / 2;
+
+        float colBLeft = colB.gameObject.transform.position.x - colB.width / 2;
+        float colBRight = colB.gameObject.transform.position.x + colB.width / 2;
+        float colBTop = colB.gameObject.transform.position.y - colB.height / 2;
+        float colBBottom = colB.gameObject.transform.position.y + colB.height / 2;
+
+        return !(thisLeft > colBRight || thisRight < colBLeft || thisTop > colBBottom || thisBottom < colBTop);
     }
 }

@@ -3,7 +3,10 @@ package engine.objects;
 import engine.components.Component;
 import engine.components.Transform;
 import engine.graphics.Renderer;
+import engine.interfaces.ICollisionListener;
 import engine.maths.Vector2D;
+import engine.utils.LOG_TYPE;
+import engine.utils.Logger;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -23,6 +26,10 @@ public class GameObject {
     public GameObject(String name, Transform transform) {
         this.name = name;
         this.transform = transform;
+    }
+
+    public String getName() {
+        return name;
     }
 
     // Them gameobject con
@@ -93,13 +100,22 @@ public class GameObject {
     }
 
     // Vẽ tất cả component có chức năng render
-    public void draw(Graphics g) {
-        Renderer renderer = new Renderer(g);
+    public void draw(Renderer g) {
         for (Component c : components) {
-            c.draw(renderer);
+            c.draw(g);
         }
         for (GameObject obj : gameObjects) {
             obj.draw(g);
         }
+    }
+
+    public void onCollision(GameObject other) {
+//        Logger.log(this, "Collision detected between " + this.name + " and " + other.name);
+        for (Component c : this.components) {
+            if (c instanceof ICollisionListener) {
+                ((ICollisionListener)c).onCollision(other);
+            }
+        }
+
     }
 }

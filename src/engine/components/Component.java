@@ -17,6 +17,8 @@ public abstract class Component {
         return gameObject;
     }
 
+    public void collisionWith(GameObject gObj) {}
+
     public void start() {} // Gọi khi bắt đầu
     public void update(float deltaTime) {} // Gọi mỗi frame
     public void fixedUpdate(float deltaTime) {} // Gọi theo khoảng thời gian cố định

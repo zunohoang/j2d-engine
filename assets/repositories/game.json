@@ -1,0 +1,16 @@
+{
+  "name": "game",
+  "path": "assets/engines/game",
+  "version": "1.0.0",
+  "data": {
+    "name": "Naruto Bleach",
+    "description": "A game engine for creating games in the GJ universe.",
+    "author": "zunohoang",
+    "license": "MIT",
+    "server": {
+      "host": "localhost",
+      "port": 8080,
+      "protocol": "http"
+    }
+  }
+}

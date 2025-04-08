@@ -15,6 +15,7 @@ import java.io.IOException;
 public class ImageRenderer extends Component {
     private BufferedImage image;
     private int width = -1, height = -1;
+    private boolean fullscreen = false;
 
     public ImageRenderer(String imagePath) {
         loadImage(imagePath);
@@ -22,6 +23,11 @@ public class ImageRenderer extends Component {
 
     public ImageRenderer(BufferedImage image, int width, int height) {
         this.image = image;
+    }
+
+    public ImageRenderer(String imagePath, boolean fullscreen) {
+        loadImage(imagePath);
+        this.fullscreen = fullscreen;
     }
 
     // Tải ảnh từ file
@@ -45,6 +51,10 @@ public class ImageRenderer extends Component {
             if(image != null) {
                 width = image.getWidth();
                 height = image.getHeight();
+            }
+            if(fullscreen) {
+                width = SceneManager.getWidth();
+                height = SceneManager.getHeight();
             }
         }
     }

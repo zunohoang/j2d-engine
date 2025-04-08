@@ -4,6 +4,7 @@ import engine.components.CircleCollider;
 import engine.components.Rigidbody;
 import engine.components.BoxCollider;
 import engine.components.TopDownRigidbody;
+import engine.maths.Vector2D;
 import engine.objects.GameObject;
 import engine.utils.LOG_TYPE;
 import engine.utils.Logger;
@@ -60,5 +61,66 @@ public class Physics {
         }
 
         Logger.log(Physics.class, "Collision resolved", LOG_TYPE.SUCCESS);
+    }
+
+    // safe view
+    // đay là các hình hộp, check va chạm tường nữa, không có phải lực nếu ngang thì k di chuyển được, nếu dọc thì không khng bị rơi
+    public static void resolveCollisionV2(GameObject objA, GameObject objB) {
+        BoxCollider colliderA = objA.getComponent(BoxCollider.class);
+        BoxCollider colliderB = objB.getComponent(BoxCollider.class);
+
+        if (colliderA == null || colliderB == null) return;
+        if (!colliderA.isColliding(colliderB)) return;
+
+        // Lấy thông tin vị trí và kích thước
+        Vector2D centerA = new Vector2D(objA.transform.position.x, objA.transform.position.y);
+        Vector2D centerB = new Vector2D(objB.transform.position.x, objB.transform.position.y);
+        float halfWidthA = colliderA.width / 2f;
+        float halfHeightA = colliderA.height / 2f;
+        float halfWidthB = colliderB.width / 2f;
+        float halfHeightB = colliderB.height / 2f;
+
+        // Tính toán overlap trên từng trục
+        float overlapX = (halfWidthA + halfWidthB) - Math.abs(centerB.x - centerA.x);
+        float overlapY = (halfHeightA + halfHeightB) - Math.abs(centerB.y - centerA.y);
+
+        // Xác định hướng va chạm chính (trục có overlap nhỏ hơn)
+        if (overlapX < overlapY) {
+            // Va chạm ngang (trục X)
+            if (centerA.x < centerB.x) {
+                // Vật thể A ở bên trái B
+                objA.transform.position.x = centerB.x - (halfWidthA + halfWidthB);
+            } else {
+                // Vật thể A ở bên phải B
+                objA.transform.position.x = centerB.x + (halfWidthA + halfWidthB);
+            }
+
+            // Xử lý vật lý (nếu có Rigidbody)
+            Rigidbody rbA = objA.getComponent(Rigidbody.class);
+            if (rbA != null) {
+                rbA.velocity.x = 0;
+                // Thêm độ trễ nhỏ để tránh dính
+                objA.transform.position.x += (centerA.x < centerB.x) ? -0.01f : 0.01f;
+            }
+        } else {
+            // Va chạm dọc (trục Y)
+            if (centerA.y < centerB.y) {
+                // Vật thể A ở dưới B
+                objA.transform.position.y = centerB.y - (halfHeightA + halfHeightB);
+            } else {
+                // Vật thể A ở trên B
+                objA.transform.position.y = centerB.y + (halfHeightA + halfHeightB);
+            }
+
+            // Xử lý vật lý (nếu có Rigidbody)
+            Rigidbody rbA = objA.getComponent(Rigidbody.class);
+            if (rbA != null) {
+                rbA.velocity.y = 0;
+                // Thêm độ trễ nhỏ để tránh dính
+                objA.transform.position.y += (centerA.y < centerB.y) ? -0.01f : 0.01f;
+            }
+        }
+
+        Logger.log(Physics.class, "Collision resolved between " + objA.name + " and " + objB.name, LOG_TYPE.INFO);
     }
 }

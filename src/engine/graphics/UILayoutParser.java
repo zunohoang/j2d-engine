@@ -3,14 +3,12 @@ package engine.graphics;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import engine.components.Component;
 import engine.components.ui.*;
-import engine.components.ui.Button;
 import engine.maths.Vector3D;
 import engine.scenes.SceneManager;
 import engine.utils.LOG_TYPE;
 import engine.utils.Logger;
-import game.GameScene;
+import game.scenes.GameScene;
 import org.w3c.dom.*;
 
 import engine.maths.Vector2D;
@@ -19,7 +17,6 @@ import engine.scenes.Scene;
 
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
 
 public class UILayoutParser {
     public static void loadLayout(String filePath, Scene scene) {

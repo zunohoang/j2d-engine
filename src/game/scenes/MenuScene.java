@@ -1,14 +1,6 @@
-package game;
+package game.scenes;
 
-import engine.components.CoordinateXY;
-import engine.components.SpriteRenderer;
-import engine.components.Transform;
-import engine.components.ui.Button;
-import engine.components.ui.ImageRenderer;
-import engine.components.ui.RectTransform;
 import engine.graphics.UILayoutParser;
-import engine.maths.Vector2D;
-import engine.objects.GameObject;
 import engine.scenes.Scene;
 import engine.scenes.SceneManager;
 import engine.utils.DevMode;

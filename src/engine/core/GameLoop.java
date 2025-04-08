@@ -1,8 +1,10 @@
 package engine.core;
 
+import engine.graphics.Renderer;
+import engine.localdata.RepositoryService;
 import engine.physics.CollisionManager;
+import engine.physics.PhysicsSystem;
 import engine.scenes.SceneManager;
-import game.GameConfig;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -17,6 +19,9 @@ public class GameLoop extends Canvas {
     }
 
     public void start() {
+        RepositoryService.getInstance();
+        createBufferStrategy(3); // Tạo BufferStrategy với 3 buffers
+
         // Khởi động thread cập nhật
         Thread updateThread = new Thread(this::updateLoop);
         updateThread.start();
@@ -47,7 +52,8 @@ public class GameLoop extends Canvas {
 
             // Xử lý FixedUpdate với khoảng thời gian cố định
             while (deltaTime >= 1) {
-                CollisionManager.checkCollisions(); // Kiểm tra va chạm
+                CollisionManager.checkCollisionsV2(); // Kiểm tra va chạm
+//                PhysicsSystem.update(1.0f / TARGET_UPS); // Cập nhật vật lý
                 SceneManager.fixedUpdate(1.0f / TARGET_UPS); // Cập nhật vật lý
                 deltaTime--;
             }
@@ -77,7 +83,6 @@ public class GameLoop extends Canvas {
         long lastLoopTime = System.nanoTime();
         double delta = 0;
 
-        createBufferStrategy(3); // Tạo BufferStrategy với 3 buffers
         // Tạo BufferStrategy để vẽ
         BufferStrategy bufferStrategy = getBufferStrategy();
 
@@ -110,13 +115,14 @@ public class GameLoop extends Canvas {
     private void render(BufferStrategy bufferStrategy) {
         // Lấy Graphics từ BufferStrategy
         Graphics g = bufferStrategy.getDrawGraphics();
+        Renderer renderer = new Renderer(g);
         try {
             // Xóa màn hình
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
 
             // Vẽ các đối tượng game
-            SceneManager.draw(g);
+            SceneManager.draw(renderer);
         } finally {
             // Kết thúc vẽ và hiển thị
             g.dispose();

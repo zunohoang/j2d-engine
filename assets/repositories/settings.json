@@ -1,0 +1,24 @@
+{
+  "name": "settings",
+  "path": "assets/repositories/settings",
+  "version": "1.0.0",
+  "data": {
+    "system": {
+      "music": {
+        "volume": 50,
+        "enabled": true
+      },
+      "sound": {
+        "volume": 50,
+        "enabled": true
+      }
+    },
+    "user": {
+      "current": {
+        "name": "Nguyen Van Hoang",
+        "username": "zunohoang",
+        "password": "12345678"
+      }
+    }
+  }
+}

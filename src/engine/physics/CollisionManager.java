@@ -4,7 +4,7 @@ import engine.components.*;
 import engine.objects.GameObject;
 import engine.utils.LOG_TYPE;
 import engine.utils.Logger;
-import game.GameConfig;
+import game.configs.GameConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,23 @@ public class CollisionManager {
     // Giai phong doi tuong khi khong con su dung
     public static void unregister(GameObject obj) {
         collidableObjects.remove(obj);
+    }
+
+    public static void checkCollisionsV2() {
+        for (int i = 0; i < collidableObjects.size(); i++) {
+            for (int j = i + 1; j < collidableObjects.size(); j++) {
+                GameObject a = collidableObjects.get(i);
+                GameObject b = collidableObjects.get(j);
+
+                BoxCollider colA = a.getComponent(BoxCollider.class);
+                BoxCollider colB = b.getComponent(BoxCollider.class);
+
+                if (colA != null && colB != null && colA.isCollidingWith(colB)) {
+                    a.onCollision(b);
+                    b.onCollision(a);
+                }
+            }
+        }
     }
 
     public static void checkCollisions() {

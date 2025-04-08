@@ -1,5 +1,6 @@
 package engine.scenes;
 
+import engine.graphics.Renderer;
 import engine.objects.GameObject;
 import engine.physics.CollisionManager;
 import engine.utils.DevMode;
@@ -13,9 +14,13 @@ public abstract class Scene {
     protected List<GameObject> pendingObjects = new ArrayList<>();
     private List<GameObject> renderObjects = new ArrayList<>(); // Danh sách an toàn cho render
 
+    public List<GameObject> getGameObjects() {
+        return gameObjects;
+    }
+
     protected Thread physicsThread = new Thread(() -> {
         while (true) {
-            CollisionManager.checkCollisions();
+            CollisionManager.checkCollisionsV2();
             try {
                 Thread.sleep(10); // Kiểm tra va chạm mỗi 10ms
             } catch (InterruptedException e) {
@@ -55,7 +60,7 @@ public abstract class Scene {
         }
     }
 
-    public void draw(Graphics g) {
+    public void draw(Renderer g) {
         synchronized (renderObjects) {
             for (GameObject obj : renderObjects) {
                 obj.draw(g);

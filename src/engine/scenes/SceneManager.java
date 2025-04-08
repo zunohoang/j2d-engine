@@ -1,10 +1,16 @@
 package engine.scenes;
 
+import engine.graphics.Renderer;
+
 import java.awt.*;
 
 public class SceneManager {
     private static Scene currentScene;
     private static Frame frame;
+
+    public static Scene getCurrentScene() {
+        return currentScene;
+    }
 
     public static void loadScene(Scene newScene) {
         currentScene = newScene;
@@ -35,8 +41,10 @@ public class SceneManager {
         if (currentScene != null) currentScene.lateUpdate(deltaTime);
     }
 
-    public static void draw(Graphics g) {
-        if (currentScene != null) currentScene.draw(g);
+    public static void draw(Renderer g) {
+        if (currentScene != null) {
+            currentScene.draw(g);
+        }
     }
 }
 

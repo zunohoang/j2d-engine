@@ -1,12 +1,6 @@
 import engine.core.Engine;
-import engine.core.GameLoop;
 import engine.scenes.SceneManager;
-import game.GameConfig;
-import game.MenuScene;
-
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import game.scenes.MenuScene;
 
 public class Main {
     public static void main(String[] args) {

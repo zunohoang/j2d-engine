@@ -1,10 +1,10 @@
 package engine.core;
 
-import engine.physics.CollisionManager;
+import engine.localdata.RepositoryService;
 import engine.scenes.SceneManager;
 import engine.utils.LOG_TYPE;
 import engine.utils.Logger;
-import game.GameConfig;
+import game.configs.GameConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +24,7 @@ public class Engine {
         int frameWidth = contentWidth + insets.left + insets.right;
         int frameHeight = contentHeight + insets.top + insets.bottom;
         frame.setSize(frameWidth, frameHeight);
+        RepositoryService.getInstance();
         SwingUtilities.invokeLater(gamePanel::start);
         Logger.log(Engine.class, "Engine Started", LOG_TYPE.SUCCESS);
         SceneManager.setFrame(frame);
