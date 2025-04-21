@@ -35,8 +35,12 @@ public class CollisionManager {
                 BoxCollider colB = b.getComponent(BoxCollider.class);
 
                 if (colA != null && colB != null && colA.isCollidingWith(colB)) {
-                    a.onCollision(b);
-                    b.onCollision(a);
+                    try {
+                        a.onCollision(b);
+                        b.onCollision(a);
+                    } catch (Exception e){
+                        
+                    }
                 }
             }
         }

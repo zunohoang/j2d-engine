@@ -6,14 +6,19 @@
     "characters": [
       {
         "id": 1,
-        "name": "Itachi Uchiha",
+        "name": "Itachi",
         "animations": [
           {
             "name": "standing",
             "loop": -1,
             "paths": [
-              "assets/images/characters/itachi/animation/standing/itachi2.png",
-              "assets/images/characters/itachi/animation/standing/itachi3.png"
+              "assets/images/characters/itachi/animation/standing/Itachi-97.png",
+              "assets/images/characters/itachi/animation/standing/Itachi-98.png",
+              "assets/images/characters/itachi/animation/standing/Itachi-99.png",
+              "assets/images/characters/itachi/animation/standing/Itachi-100.png",
+              "assets/images/characters/itachi/animation/standing/Itachi-101.png",
+              "assets/images/characters/itachi/animation/standing/Itachi-102.png",
+              "assets/images/characters/itachi/animation/standing/Itachi-103.png"
             ]
           },
           {
@@ -28,47 +33,100 @@
             "name": "running",
             "loop": -1,
             "paths": [
-              "assets/images/characters/itachi/animation/running/itachi11.png",
-              "assets/images/characters/itachi/animation/running/itachi12.png",
-              "assets/images/characters/itachi/animation/running/itachi13.png",
-              "assets/images/characters/itachi/animation/running/itachi14.png",
-              "assets/images/characters/itachi/animation/running/itachi15.png",
-              "assets/images/characters/itachi/animation/running/itachi16.png"
-            ]
+              "assets/images/characters/itachi/animation/running/Itachi-107.png",
+              "assets/images/characters/itachi/animation/running/Itachi-108.png",
+              "assets/images/characters/itachi/animation/running/Itachi-109.png",
+              "assets/images/characters/itachi/animation/running/Itachi-110.png",
+              "assets/images/characters/itachi/animation/running/Itachi-111.png",
+              "assets/images/characters/itachi/animation/running/Itachi-112.png"]
           },
           {
             "name": "jumping",
             "loop": 1,
             "paths": [
-              "assets/images/characters/itachi/animation/jumping/itachi17.png",
-              "assets/images/characters/itachi/animation/jumping/itachi18.png",
-              "assets/images/characters/itachi/animation/jumping/itachi19.png",
-              "assets/images/characters/itachi/animation/jumping/itachi20.png"
+              "assets/images/characters/itachi/animation/jumping/Itachi-135.png",
+              "assets/images/characters/itachi/animation/jumping/Itachi-136.png",
+              "assets/images/characters/itachi/animation/jumping/Itachi-137.png"
             ]
           },
           {
             "name": "normalAttacking",
             "loop": -2,
             "paths": [
-                "assets/images/characters/itachi/animation/normalAttacking/itachi28.png",
-              "assets/images/characters/itachi/animation/normalAttacking/itachi29.png",
-              "assets/images/characters/itachi/animation/normalAttacking/itachi30.png",
-              "assets/images/characters/itachi/animation/normalAttacking/itachi31.png",
-              "assets/images/characters/itachi/animation/normalAttacking/itachi32.png",
-              "assets/images/characters/itachi/animation/normalAttacking/itachi33.png",
-              "assets/images/characters/itachi/animation/normalAttacking/itachi34.png",
-              "assets/images/characters/itachi/animation/normalAttacking/itachi35.png",
-              "assets/images/characters/itachi/animation/normalAttacking/itachi36.png",
-              "assets/images/characters/itachi/animation/normalAttacking/itachi37.png",
-              "assets/images/characters/itachi/animation/normalAttacking/itachi38.png",
-              "assets/images/characters/itachi/animation/normalAttacking/itachi39.png",
-              "assets/images/characters/itachi/animation/normalAttacking/itachi40.png"]
+              "assets/images/characters/itachi/animation/normalAttacking/Itachi-261.png",
+              "assets/images/characters/itachi/animation/normalAttacking/Itachi-262.png",
+              "assets/images/characters/itachi/animation/normalAttacking/Itachi-263.png",
+              "assets/images/characters/itachi/animation/normalAttacking/Itachi-264.png",
+              "assets/images/characters/itachi/animation/normalAttacking/Itachi-265.png",
+              "assets/images/characters/itachi/animation/normalAttacking/Itachi-266.png",
+              "assets/images/characters/itachi/animation/normalAttacking/Itachi-267.png",
+              "assets/images/characters/itachi/animation/normalAttacking/Itachi-268.png",
+              "assets/images/characters/itachi/animation/normalAttacking/Itachi-269.png",
+              "assets/images/characters/itachi/animation/normalAttacking/Itachi-270.png",
+              "assets/images/characters/itachi/animation/normalAttacking/Itachi-271.png",
+              "assets/images/characters/itachi/animation/normalAttacking/Itachi-272.png",
+              "assets/images/characters/itachi/animation/normalAttacking/Itachi-273.png",
+              "assets/images/characters/itachi/animation/normalAttacking/Itachi-274.png"
+              ]
           }
         ]
       },
       {
         "id": 2,
-        "name": "Naruto Uzumaki"
+        "name": "Naruto",
+        "animations": [
+          {
+            "name": "standing",
+            "loop": -1,
+            "paths": [
+              "assets/images/characters/naruto/animation/standing/Naruto-101.png",
+              "assets/images/characters/naruto/animation/standing/Naruto-102.png",
+              "assets/images/characters/naruto/animation/standing/Naruto-103.png",
+              "assets/images/characters/naruto/animation/standing/Naruto-104.png"
+            ]
+          },
+          {
+            "name": "running",
+            "loop": -1,
+            "paths": [
+              "assets/images/characters/naruto/animation/running/Naruto-108.png",
+              "assets/images/characters/naruto/animation/running/Naruto-109.png",
+              "assets/images/characters/naruto/animation/running/Naruto-110.png",
+              "assets/images/characters/naruto/animation/running/Naruto-111.png",
+              "assets/images/characters/naruto/animation/running/Naruto-112.png",
+              "assets/images/characters/naruto/animation/running/Naruto-113.png"
+            ]
+          },
+          {
+            "name": "jumping",
+            "loop": 1,
+            "paths": [
+              "assets/images/characters/naruto/animation/jumping/Naruto-147.png",
+              "assets/images/characters/naruto/animation/jumping/Naruto-148.png",
+              "assets/images/characters/naruto/animation/jumping/Naruto-149.png"
+            ]
+          },
+          {
+            "name": "normalAttacking",
+            "loop": -2,
+            "paths": [
+              "assets/images/characters/naruto/animation/normalAttacking/Naruto-272.png",
+              "assets/images/characters/naruto/animation/normalAttacking/Naruto-273.png",
+              "assets/images/characters/naruto/animation/normalAttacking/Naruto-274.png",
+              "assets/images/characters/naruto/animation/normalAttacking/Naruto-275.png",
+              "assets/images/characters/naruto/animation/normalAttacking/Naruto-276.png",
+              "assets/images/characters/naruto/animation/normalAttacking/Naruto-277.png",
+              "assets/images/characters/naruto/animation/normalAttacking/Naruto-278.png",
+              "assets/images/characters/naruto/animation/normalAttacking/Naruto-279.png",
+              "assets/images/characters/naruto/animation/normalAttacking/Naruto-280.png",
+              "assets/images/characters/naruto/animation/normalAttacking/Naruto-281.png",
+              "assets/images/characters/naruto/animation/normalAttacking/Naruto-282.png",
+              "assets/images/characters/naruto/animation/normalAttacking/Naruto-283.png",
+              "assets/images/characters/naruto/animation/normalAttacking/Naruto-284.png",
+              "assets/images/characters/naruto/animation/normalAttacking/Naruto-285.png"
+            ]
+          }
+        ]
       },
       {
         "id": 3,

@@ -13,9 +13,10 @@ public class Vector2D {
         return new Vector2D(0, 0);
     }
 
-    public void add(Vector2D other) {
+    public Vector2D add(Vector2D other) {
         this.x += other.x;
         this.y += other.y;
+        return other;
     }
 
     public void subtract(Vector2D other) {

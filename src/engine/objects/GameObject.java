@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 public class GameObject {
+    public GameObject parent;
     public String name;
+    public String tag;
     public Transform transform;
     public String currentState;
     public int layer;
@@ -28,12 +30,26 @@ public class GameObject {
         this.transform = transform;
     }
 
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
     public String getName() {
         return name;
     }
 
+
+    public void setParent(GameObject parent) {
+        this.parent = parent;
+    }
+
     // Them gameobject con
     public void addObject(GameObject obj) {
+        obj.setParent(this);
         gameObjects.add(obj);
     }
 
@@ -116,6 +132,11 @@ public class GameObject {
                 ((ICollisionListener)c).onCollision(other);
             }
         }
+    }
 
+    public void destroy() {
+        if (parent != null) parent.removeObject(this);
+        gameObjects = new ArrayList<>();
+        components = new ArrayList<>();
     }
 }

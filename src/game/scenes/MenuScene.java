@@ -1,6 +1,7 @@
 package game.scenes;
 
 import engine.graphics.UILayoutParser;
+import engine.objects.GameObject;
 import engine.scenes.Scene;
 import engine.scenes.SceneManager;
 import engine.utils.DevMode;

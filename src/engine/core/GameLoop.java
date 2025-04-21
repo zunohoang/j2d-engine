@@ -22,6 +22,10 @@ public class GameLoop extends Canvas {
         RepositoryService.getInstance();
         createBufferStrategy(3); // Tạo BufferStrategy với 3 buffers
 
+        // Khởi động thread vật lý
+//        Thread physicsThread = new Thread(this::physicsUpdate);
+//        physicsThread.start();
+
         // Khởi động thread cập nhật
         Thread updateThread = new Thread(this::updateLoop);
         updateThread.start();
@@ -30,6 +34,31 @@ public class GameLoop extends Canvas {
         Thread renderThread = new Thread(this::renderLoop);
         renderThread.start();
     }
+
+    public void physicsUpdate() {
+        while (running) {
+            long startTime = System.nanoTime();
+
+            // Gọi hàm kiểm tra va chạm
+            CollisionManager.checkCollisionsV2();
+
+            long elapsedTime = System.nanoTime() - startTime;
+            long sleepTime = 20_000_000 - elapsedTime; // 20ms = 20 triệu nano
+
+            if (sleepTime > 0) {
+                try {
+                    Thread.sleep(sleepTime / 1_000_000, (int)(sleepTime % 1_000_000));
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt(); // tốt hơn e.printStackTrace()
+                }
+            } else {
+                // Nếu mất nhiều hơn 20ms, nhường CPU cho thread khác
+                Thread.yield();
+            }
+        }
+    }
+
+
 
     private void updateLoop() {
         final int TARGET_FPS = 200; // Số khung hình mỗi giây (Frames Per Second)

@@ -10,65 +10,136 @@ import engine.objects.GameObject;
 import engine.physics.CollisionManager;
 import engine.scenes.Scene;
 import engine.utils.Logger;
+import game.configs.GameConfig;
+import game.gameobjects.HUBUpdate;
+import game.scripts.HealthPoint;
 import game.scripts.NormalAttack;
 import game.scripts.PlayerController;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class GameScene extends Scene {
-    private GameObject[] player = new ArrayList<>().toArray(new GameObject[5]);
-
+    private GameObject playerx, playery;
+    private GameObject head;
     @Override
     public void start() {
         Logger.log(this, "Game Scene start");
 
         Transform transform = new Transform(new Vector2D(0, 0), new Vector3D(0, 0, 0), new Vector2D(1, 1));
         GameObject background = new GameObject("Background", transform);
-        background.addComponent(new ImageRenderer("assets/images/home-bg.jpg", true));
+        background.addComponent(new ImageRenderer("assets/images/round-bg/UchihaHideout-0.png", true));
         background.addComponent(new SpriteRenderer());
         background.addComponent(new CoordinateXY());
         Camera.getCamera().setPosition(new Vector2D(0, 0));
 
         addObject(background);
 
-        GameObject playerx = new GameObject("Itachi", new Transform(new Vector2D(50, 50), new Vector3D(0, 0, 0), new Vector2D( 1, 1)));
-        playerx.addComponent(new ImageRenderer("assets/images/characters/itachi/animation/standing/itachi1.png"));
+        GameObject titlePlayer1 = new GameObject("Title-Player1", new Transform(new Vector2D(0, 0), new Vector3D(0, 0, 0), new Vector2D( 1, 1)));
+        titlePlayer1.addComponent(new ImageRenderer("assets/images/characters/naruto/profile/ItemsEffectsIcons-40.png", 0f, -50f));
+
+        GameObject titlePlayer2 = new GameObject("Title-Player2", new Transform(new Vector2D(0, 0), new Vector3D(0, 0, 0), new Vector2D( 1, 1)));
+        titlePlayer2.addComponent(new ImageRenderer("assets/images/characters/itachi/profile/ItemsEffectsIcons-52.png", 0f, -50f));
+
+        playerx = new GameObject("Player", new Transform(new Vector2D(50, 50), new Vector3D(0, 0, 0), new Vector2D( 1, 1)));
+        playerx.addComponent(new ImageRenderer("assets/images/characters/naruto/animation/standing/Naruto-101.png"));
+        playerx.addObject(titlePlayer1);
+        playerx.addComponent(new HealthPoint(100));
         playerx.currentState = "standing";
         playerx.addComponent(new Animations());
-        playerx.addComponent(new BoxCollider(30, 60));
+        playerx.addComponent(new BoxCollider(50, 60));
         playerx.addComponent(new SpriteRenderer());
         playerx.addComponent(new Rigidbody());
         playerx.addComponent(new CoordinateXY());
-        playerx.getComponent(Animations.class).setAnimations(AnimationRefactor.loadAnimation("Itachi Uchiha"));
-        playerx.addComponent(new PlayerController());
-        playerx.addComponent(new NormalAttack());
+        playerx.getComponent(Animations.class).setAnimations(AnimationRefactor.loadAnimation("Naruto"));
+
+        playerx.addComponent(new PlayerController(KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_J));
+        playerx.addComponent(new NormalAttack(KeyEvent.VK_J));
+
+        playery = new GameObject("Player", new Transform(new Vector2D(100, 50), new Vector3D(0, 0, 0), new Vector2D( 1.5f, 1)));
+        playery.addComponent(new ImageRenderer("assets/images/characters/itachi/animation/standing/Itachi-97.png"));
+        playery.addObject(titlePlayer2);
+        playery.currentState = "standing";
+        playery.addComponent(new Animations());
+        playery.addComponent(new BoxCollider(50, 78));
+        playery.addComponent(new SpriteRenderer());
+        playery.addComponent(new Rigidbody());
+        playery.addComponent(new CoordinateXY());
+        playery.getComponent(Animations.class).setAnimations(AnimationRefactor.loadAnimation("Itachi"));
+        playery.addComponent(new HealthPoint(100));
+        playery.addComponent(new PlayerController(KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_NUMPAD4));
+        playery.addComponent(new NormalAttack(KeyEvent.VK_NUMPAD4));
+
+        CollisionManager.register(playery);
+        addObject(playery);
 
         CollisionManager.register(playerx);
         addObject(playerx);
 
-        GameObject boxWall = new GameObject("Ground", new Transform(new Vector2D(100, 400), new Vector3D(0, 0, 0), new Vector2D(1, 1)));
-        boxWall.addComponent(new BoxCollider(500, 100));
+        GameObject gameHeaderLeft = new GameObject("Left", new Transform(new Vector2D(-GameConfig.SCREEN_WIDTH/2f + 150, 0), new Vector3D(0, 0, 0), new Vector2D( 1, 1)));
+        gameHeaderLeft.addComponent(new ImageRenderer("assets/images/ItemsEffectsIcons-30.png", 300,70));
+        GameObject healthLeft = new GameObject("Health1", new Transform(new Vector2D(30,5), new Vector3D(0,0,0), new Vector2D(1,1)));
+        healthLeft.addComponent(new ImageRenderer("assets/images/ItemsEffectsIcons-34.png",-112,-10, 227,20, false));
+        gameHeaderLeft.addObject(healthLeft);
+        GameObject gameHeaderRight = new GameObject("Right", new Transform(new Vector2D(GameConfig.SCREEN_WIDTH/2f - 150, 0), new Vector3D(180, 0, 0), new Vector2D( 1, 1)));
+        gameHeaderRight.addComponent(new ImageRenderer("assets/images/ItemsEffectsIcons-29.png", 300,70));
+        GameObject healthRight = new GameObject("Health2", new Transform(new Vector2D(-30,5), new Vector3D(180,0,0), new Vector2D(1,1)));
+        healthRight.addComponent(new ImageRenderer("assets/images/ItemsEffectsIcons-35.png",-114,-10, 227,20, false));
+        gameHeaderRight.addObject(healthRight);
+        head = new GameObject("GameHeader", new Transform(new Vector2D(0, -GameConfig.SCREEN_HEIGHT/2f + 50), new Vector3D(0,0,0), new Vector2D(1,1)));
+        head.addObject(gameHeaderLeft);
+        head.addObject(gameHeaderRight);
+//        head.addComponent(new HUBUpdate(playerx, playery));
+        head.addComponent(new CoordinateXY());
+        addObject(head);
+
+        GameObject boxWall = new GameObject("Ground", new Transform(new Vector2D(100, 420), new Vector3D(0, 0, 0), new Vector2D(1, 1)));
+        boxWall.addComponent(new BoxCollider(2000, 100));
         boxWall.addComponent(new SpriteRenderer());
         boxWall.addComponent(new CoordinateXY());
 
         CollisionManager.register(boxWall);
         addObject(boxWall);
 
-        GameObject boxWall2 = new GameObject("Ground", new Transform(new Vector2D(300, 350), new Vector3D(0, 0, 0), new Vector2D(1, 1)));
-        boxWall2.addComponent(new BoxCollider(500, 100));
+        GameObject boxWall2 = new GameObject("Ground", new Transform(new Vector2D(-GameConfig.SCREEN_WIDTH/2f, -GameConfig.SCREEN_HEIGHT/2f), new Vector3D(0, 0, 0), new Vector2D(1, 1)));
+        boxWall2.addComponent(new BoxCollider(20, 2000));
         boxWall2.addComponent(new SpriteRenderer());
         boxWall2.addComponent(new CoordinateXY());
 
         CollisionManager.register(boxWall2);
         addObject(boxWall2);
+
+        GameObject boxWall3 = new GameObject("Ground", new Transform(new Vector2D(GameConfig.SCREEN_WIDTH/2f, GameConfig.SCREEN_HEIGHT/2f), new Vector3D(0, 0, 0), new Vector2D(1, 1)));
+        boxWall3.addComponent(new BoxCollider(20, 2000));
+        boxWall3.addComponent(new SpriteRenderer());
+        boxWall3.addComponent(new CoordinateXY());
+
+        CollisionManager.register(boxWall3);
+        addObject(boxWall3);
+
+        GameObject GroundInSky = new GameObject("GroundInSky", new Transform(new Vector2D(500, 176), new Vector3D(0, 0, 0), new Vector2D(1, 1)));
+        GroundInSky.addComponent(new BoxCollider(500, 50));
+        GroundInSky.addComponent(new SpriteRenderer());
+        GroundInSky.addComponent(new CoordinateXY());
+
+        CollisionManager.register(GroundInSky);
+        addObject(GroundInSky);
+
+        GameObject GroundInSky2 = new GameObject("GroundInSky", new Transform(new Vector2D(-500, 176), new Vector3D(0, 0, 0), new Vector2D(1, 1)));
+        GroundInSky2.addComponent(new BoxCollider(500, 50));
+        GroundInSky2.addComponent(new SpriteRenderer());
+        GroundInSky2.addComponent(new CoordinateXY());
+
+        CollisionManager.register(GroundInSky2);
+        addObject(GroundInSky2);
     }
 
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+
+        Camera.getCamera().setPosition(new Vector2D(playerx.transform.position.x, playerx.transform.position.y));
 
         if(engine.core.KeyInput.isKeyPressed(KeyEvent.VK_ESCAPE)) {
             CollisionManager.unregisterAll();
@@ -76,64 +147,3 @@ public class GameScene extends Scene {
         }
     }
 }
-
-//
-//
-//player[0] = new GameObject("Player", new Transform(new Vector2D(100, 100), new Vector3D(0, 0, 0), new Vector2D(0, 0)));
-//player[0].addComponent(new CircleCollider(30));
-//player[0].addComponent(new TopDownRigidbody(new Vector2D(5, -5), 1));
-//player[0].addComponent(new SpriteRenderer());
-//player[0].addComponent(new CoordinateXY());
-//
-//player[1] = new GameObject("Player", new Transform(new Vector2D(200, 200), new Vector3D(0, 0, 0), new Vector2D(0, 0)));
-//player[1].addComponent(new CircleCollider(50));
-//player[1].addComponent(new TopDownRigidbody(new Vector2D(5, -5), 1));
-//player[1].addComponent(new SpriteRenderer());
-//player[1].addComponent(new CoordinateXY());
-//
-//player[2] = new GameObject("Player", new Transform(new Vector2D(300, 300), new Vector3D(0, 0, 0), new Vector2D(0, 0)));
-//player[2].addComponent(new CircleCollider(50));
-//player[2].addComponent(new TopDownRigidbody(new Vector2D(5, -5), 1));
-//player[2].addComponent(new SpriteRenderer());
-//player[2].addComponent(new CoordinateXY());
-//
-//player[3] = new GameObject("Player3", new Transform(new Vector2D(400, 400), new Vector3D(0, 0, 0), new Vector2D(0, 0)));
-//player[3].addComponent(new CircleCollider(50));
-//player[3].addComponent(new SpriteRenderer());
-//player[3].addComponent(new CoordinateXY());
-////
-////        player[4] = new GameObject("Itachi", new Transform(new Vector2D(50, 50), new Vector3D(0, 0, 0), new Vector2D( 2F, 2F)));
-////        player[4].addComponent(new ImageRenderer("assets/images/player/animation/standing/itachi1.png"));
-////        List<String> img1 = new ArrayList<>();
-////        player[4].currentState = "STANDING";
-//////        img1.add("assets/images/player/animation/standing/itachi1.png");
-////        img1.add("assets/images/player/animation/standing/itachi2.png");
-////        img1.add("assets/images/player/animation/standing/itachi3.png");
-//////        img1.add("assets/images/player/animation/standing/itachi4.png");
-////        player[4].addComponent(new Animations());
-////        player[4].getComponent(Animations.class).addAnimation("STANDING", new Animation(img1));
-////        List<String> img2 = new ArrayList<>();
-////        img2.add("assets/images/player/animation/running/itachi11.png");
-////        img2.add("assets/images/player/animation/running/itachi12.png");
-////        img2.add("assets/images/player/animation/running/itachi13.png");
-////        img2.add("assets/images/player/animation/running/itachi14.png");
-////        img2.add("assets/images/player/animation/running/itachi15.png");
-////        img2.add("assets/images/player/animation/running/itachi16.png");
-////        player[4].getComponent(Animations.class).addAnimation("RUNNING", new Animation(img2));
-////        player[4].addComponent(new SpriteRenderer());
-////        player[4].addComponent(new BoxCollider(50, 50));
-////        player[4].addComponent(new Rigidbody());
-////        player[4].addComponent(new PlayerController());
-////        player[4].addComponent(new CoordinateXY());
-////
-//        CollisionManager.register(player[0]);
-//        CollisionManager.register(player[1]);
-//        CollisionManager.register(player[2]);
-//        CollisionManager.register(player[3]);
-//////
-////
-//addObject(player[0]);
-//addObject(player[1]);
-//addObject(player[2]);
-//addObject(player[3]);
-////        addObject(player[4]);

@@ -9,11 +9,15 @@ import java.util.List;
 public class Animation extends Component {
 
     private List<String> imagePath;
-    private int loop = 1;
+    private int loop = -2;
     private int currentLoop = 0;
     private float lastTime = 0;
     private float sumTime = 0;
     private int currentImageIndex = 0;
+
+    public int getLoop() {
+        return loop;
+    }
 
     public Animation(List<String> imagePath){
         this.imagePath = imagePath;
@@ -52,6 +56,7 @@ public class Animation extends Component {
         super.update(deltaTime);
         if(loop == -2) {
             getGameObject().getComponent(ImageRenderer.class).loadImage(imagePath.get(currentImageIndex));
+            return;
         }
         sumTime += deltaTime;
         if(currentImageIndex >= imagePath.size()) {

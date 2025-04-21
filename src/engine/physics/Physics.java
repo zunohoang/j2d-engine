@@ -6,8 +6,11 @@ import engine.components.BoxCollider;
 import engine.components.TopDownRigidbody;
 import engine.maths.Vector2D;
 import engine.objects.GameObject;
+import engine.scenes.SceneManager;
 import engine.utils.LOG_TYPE;
 import engine.utils.Logger;
+
+import java.util.List;
 
 public class Physics {
     public static void resolveCollision(GameObject objA, GameObject objB) {
@@ -122,5 +125,18 @@ public class Physics {
         }
 
         Logger.log(Physics.class, "Collision resolved between " + objA.name + " and " + objB.name, LOG_TYPE.INFO);
+    }
+
+    public static List<BoxCollider> overlapCircleAll(BoxCollider boxCollider, float radius) {
+        List<BoxCollider> colliders = new java.util.ArrayList<>();
+        for (GameObject obj : SceneManager.getCurrentScene().getGameObjects()) {
+            if (obj == boxCollider.getGameObject()) continue; // Bỏ qua chính nó
+            if (!obj.getName().equals("Player")) continue;
+            BoxCollider otherCollider = obj.getComponent(BoxCollider.class);
+            if (otherCollider != null && boxCollider.isColliding(otherCollider)) {
+                colliders.add(otherCollider);
+            }
+        }
+        return colliders;
     }
 }

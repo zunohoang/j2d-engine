@@ -24,4 +24,5 @@ public abstract class Component {
     public void fixedUpdate(float deltaTime) {} // Gọi theo khoảng thời gian cố định
     public void lateUpdate(float deltaTime) {} // Gọi cuối frame
     public void draw(Renderer g) {} // Vẽ lên màn hình (nếu có)
+
 }
